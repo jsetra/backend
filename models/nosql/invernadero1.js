@@ -16,9 +16,6 @@ const invernadero1Schema = new mongoose.Schema({
   co2i1: {
     type: Number,
   },
-  caudal: {
-    type: Number,
-  },
   timestamp: {
     type: Date,
     default: Date.now

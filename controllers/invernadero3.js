@@ -58,20 +58,16 @@ const getInvernadero3Semana = async (req, res) => {
     handleHttpError(res, 'ERROR EN GET USUARIOS');
   }
 };
-const getInvernadero3DosSemanas = async (req, res) => {
+const getUltimos20Invernadero3 = async (req, res) => {
   try {
-    // Calcular la fecha de dos semanas antes del momento actual
-    const dosSemanasAntes = new Date();
-    dosSemanasAntes.setDate(dosSemanasAntes.getDate() - 14);
-
-    // Consultar los registros que estén dentro del rango de fechas
-    const data = await invernadero3Model.find({
-      timestamp: { $gte: dosSemanasAntes, $lte: new Date() }
-    });
+    // Consultar los últimos 20 registros ordenados por timestamp
+    const data = await invernadero3Model.find()
+        .sort({ timestamp: -1 })
+        .limit(20);
 
     res.send({ data });
   } catch (e) {
-    handleHttpError(res, 'ERROR EN GET DOS SEMANAS');
+    handleHttpError(res, 'ERROR EN GET ULTIMOS 20');
   }
 };
 const getUltimoInvernadero3 = async (req, res) => {
@@ -138,4 +134,4 @@ const deleteinvernadero3 = async (req,res) =>{
 };
 
 
-module.exports={getUltimoInvernadero3, getinvernadero3s, getInvernadero3Semana, getinvernadero3, createinvernadero3, updateinvernadero3, deleteinvernadero3,getInvernadero3DosSemanas};
+module.exports={getUltimoInvernadero3, getinvernadero3s, getInvernadero3Semana, getinvernadero3, createinvernadero3, updateinvernadero3, deleteinvernadero3,getUltimos20Invernadero3};

@@ -1,5 +1,5 @@
 const express =require("express");
-const { getUltimoInvernadero3, getinvernadero3s, getInvernadero3Semana, getinvernadero3, createinvernadero3, updateinvernadero3, deleteinvernadero3 } = require("../controllers/invernadero3");
+const { getUltimoInvernadero3, getinvernadero3s, getInvernadero3Semana, getinvernadero3, createinvernadero3, updateinvernadero3, deleteinvernadero3, getUltimos20Invernadero3 } = require("../controllers/invernadero3");
 const router = express.Router();
 
 /**
@@ -25,13 +25,13 @@ const router = express.Router();
  *      example:
  *        name: Juan Mora
  *        email: juanmora@mora.com
- *  
+ *
  */
 
 /**
  * @swagger
  * /api/invernadero3:
- *  post: 
+ *  post:
  *    summary: crear invernadero3
  *    tags: [invernadero3]
  *    requestBody:
@@ -48,7 +48,7 @@ const router = express.Router();
 /**
  * @swagger
  * /api/invernadero3/{id}:
- *  get: 
+ *  get:
  *    summary: Listar invernadero3
  *    tags: [invernadero3]
  *    parameters:
@@ -63,25 +63,25 @@ const router = express.Router();
  *        description: Listar invernadero3
  *        content:
  *          application/json:
- *            schema: 
+ *            schema:
  *              type: object
  *              $ref: '#/components/schemas/invernadero3'
  *      404:
  *        description: invernadero3 not found
- * 
+ *
  */
 
 /**
  * @swagger
  * /api/invernadero3:
- *  get: 
+ *  get:
  *    summary: Listar invernadero3s
  *    tags: [invernadero3]
  *    responses:
  *      200:
  *        description: Listar todos los invernadero3s
- *        content: 
- *          application/json: 
+ *        content:
+ *          application/json:
  *            schema:
  *              type: array
  *              items:
@@ -90,7 +90,7 @@ const router = express.Router();
 /**
  * @swagger
  * /api/invernadero3:
- *  put: 
+ *  put:
  *    summary: Actualizar invernadero3
  *    tags: [invernadero3]
  *    requestBody:
@@ -112,7 +112,7 @@ const router = express.Router();
 /**
  * @swagger
  * /api/invernadero3:
- *  delete: 
+ *  delete:
  *    summary: Eliminar invernadero3
  *    tags: [invernadero3]
  *    requestBody:
@@ -136,6 +136,7 @@ const router = express.Router();
 // Ruta para obtener el último registro sin necesidad de un ID
 router.get('/ultimo', getUltimoInvernadero3);
 router.get('/semana', getInvernadero3Semana);
+router.get('/ultimos20', getUltimos20Invernadero3);
 
 // Rutas que esperan un ID
 router.get("/:id", getinvernadero3);

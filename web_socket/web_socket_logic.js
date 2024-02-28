@@ -9,9 +9,9 @@ function enviarEstado(ws) {
     ws.send(JSON.stringify({ estado }));
 }
 
-function initWebSocket(server) {
+function initWebSocket(server, path) {
     // Crear un servidor WebSocket
-    const wss = new WebSocket.Server({ server });
+    const wss = new WebSocket.Server({ server, path });
 
     wss.on('connection', function connection(ws) {
         console.log('Cliente conectado');
@@ -50,7 +50,7 @@ function initWebSocket(server) {
         });
     });
 
-    console.log(`Servidor WebSocket iniciado en ws://${serverAddress}:5000`);
+    console.log('Servidor WebSocket iniciado en ws://${serverAddress}:5000${path}');
 }
 
 module.exports = initWebSocket;

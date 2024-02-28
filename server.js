@@ -1,7 +1,5 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const http = require("http");
-const WebSocket = require("websocket").server;
 require("dotenv").config();
 const dbConnect = require("./config/mongo");
 const app = express();
@@ -11,8 +9,6 @@ const path = require("path");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const initWebSocket = require("./web_socket/web_socket_logic");
-
-let estado = false;
 
 const swaggerSpec = {
     definition: {
@@ -40,8 +36,8 @@ app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 // Crear un servidor HTTP
 const server = http.createServer(app);
 
-// Iniciar el WebSocket
-initWebSocket(server);
+// Iniciar el WebSocket en la ruta /ws
+initWebSocket(server, '/ws');
 
 // Iniciar el servidor HTTP en el puerto 5000
 server.listen(port, () => {

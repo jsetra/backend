@@ -6,7 +6,7 @@ let estado = false;
 
 // Función para enviar el estado actual a todos los clientes conectados
 function enviarEstado(ws) {
-    ws.send(JSON.stringify({ estado }));
+    ws.send(JSON.stringify( estado ));
 }
 
 function initWebSocket(server, path) {

@@ -1,12 +1,16 @@
 const WebSocket = require('ws');
 const os = require('os');
 
+
 // Variable booleana inicial
 let estado = false;
 
+// Lista de clientes conectados
+const clientes = [];
+
 // Función para enviar el estado actual a todos los clientes conectados
-function enviarEstado(ws) {
-    ws.send(estado ? 'true':'false');
+function enviar_estado(ws) {
+    ws.send(JSON.stringify({ estado: estado }));
 }
 
 function initWebSocket(server, path) {
@@ -14,30 +18,31 @@ function initWebSocket(server, path) {
     const wss = new WebSocket.Server({ server, path });
 
     wss.on('connection', function connection(ws) {
+        clientes.push(ws);
         console.log('Cliente conectado');
 
         // Enviar el estado actual al cliente cuando se conecta
-        enviarEstado(ws);
+        enviar_estado(ws);
 
-        // Manejar mensajes del cliente
-        ws.on('message', function incoming(message) {
-            console.log('Mensaje recibido:', message); // Imprimir el mensaje recibido en consola
+        ws.on('message', function incoming(data) {
+            console.log('Mensaje recibido:', data);
 
-            // Cambiar el estado de acuerdo al mensaje recibido
-            if (message === 'Encender motor') {
-                estado = true;
-            } else if (message === 'Apagar motor') {
-                estado = false;
-            }
+            estado = !estado;
 
             console.log('estado:', estado);
 
-            // Enviar el nuevo estado a todos los clientes
-            wss.clients.forEach(function each(client) {
-                if (client.readyState === WebSocket.OPEN) {
-                    enviarEstado(client);
-                }
+            clientes.forEach(function each(client) {
+                enviar_estado(client);
             });
+        });
+
+        ws.on('close', function close() {
+            console.log('Cliente desconectado');
+            const index = clientes.indexOf(ws);
+            if (index > -1) {
+                clientes.splice(index, 1);
+            }
+            estado = false;
         });
     });
 

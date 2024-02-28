@@ -6,7 +6,7 @@ let estado = false;
 
 // Función para enviar el estado actual a todos los clientes conectados
 function enviarEstado(ws) {
-    ws.send(estado ? 'true':'false');
+    ws.send({estado });
 }
 
 function initWebSocket(server, path) {
@@ -21,11 +21,14 @@ function initWebSocket(server, path) {
 
         // Manejar mensajes del cliente
         ws.on('message', function incoming(message) {
-
             console.log('Mensaje recibido:', message); // Imprimir el mensaje recibido en consola
 
             // Cambiar el estado de acuerdo al mensaje recibido
-            estado = !estado;
+            if (message === 'Encender motor') {
+                estado = true;
+            } else if (message === 'Apagar motor') {
+                estado = false;
+            }
 
             console.log('estado:', estado);
 

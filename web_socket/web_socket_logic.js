@@ -50,7 +50,7 @@ function initWebSocket(server, path) {
         });
     });
 
-    console.log('Servidor WebSocket iniciado en ws://${serverAddress}:5000${path}');
+    console.log(`Servidor WebSocket iniciado en ws://${serverAddress}:5000${path}`);
 }
 
 module.exports = initWebSocket;
